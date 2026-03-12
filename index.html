@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CTA Links Page</title>
+  <style>
+    body{
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 100px;
+    }
+    .btn{
+        padding: 12px 24px;
+        margin: 12px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+  </style>
+  <!-- Salesforce Data Cloud SDK (replace YOUR-ACCOUNT-ID) -->
+  <script src="https://cdn.c360a.salesforce.com/beacon/c360a/2026ecea-7788-4dcf-bbfd-b248a89b1fb0/scripts/c360a.min.js"></script>
+ <!-- <script>
+    SalesforceInteractions.setLoggingLevel('DEBUG');
+
+    // We wait for the click on the popup button
+    document.getElementById("consentOK").addEventListener("click", function() {
+        
+        // Hide the popup
+        document.getElementById("myConsentPopup").style.display = "none";
+
+        // This is the variable you wanted to pass
+        const myStatus = SalesforceInteractions.ConsentStatus.OptIn;
+
+        // Initialize with that variable
+        SalesforceInteractions.init({
+            consents: [
+                {
+                    status: myStatus,
+                    purpose: SalesforceInteractions.ConsentPurpose.Tracking,
+                    provider: 'Test Provider'
+                }
+            ]
+        });
+        
+        console.log("Consent sent as: " + myStatus);
+    });
+</script>-->
+</head>
+<body>
+<div id="consentPopup" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:9999;">
+    <div style="background:white; padding:30px; border-radius:10px; text-align:center; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+        <h3 style="margin-top:0;">Cookie Consent</h3>
+        <p>Allow tracking for a better experience?</p>
+        <button id="giveConsentBtn" type="button" class="btn" style="background:#28a745; color:white; border:none; border-radius:5px; padding:10px 20px; cursor:pointer;">OK</button>
+    </div>
+</div>
+
+<h1>Simple CTA Buttons</h1>
+
+<button id="ctaGoogle" class="btn" data-url="#">
+  Go to Google
+</button>
+
+<button id="ctaYahoo" class="btn" data-url="https://www.yahoo.com">
+  Go to Yahoo
+</button>
+
+<button id="ctaBing" class="btn" data-url="https://www.bing.com">
+  Go to Bing
+</button>
+
+<button id="cta-download-whitepaper" class="btn" data-url="#">
+ cta-download-whitepaper
+</button>
+
+<form action="#">
+First Name: <input type="text" id="firstnamepage" class="loginform" name="firstname"/> <br>
+Last Name: <input type="text" id="lastnamepage" name="lastname" class="loginform"/> <br>
+<button type="submit" id="sbm">Submit</button>
+
+</form>
+
+</body>
+<script>
+    SalesforceInteractions.setLoggingLevel('DEBUG');
+
+    // Wait for the OK button click
+    document.getElementById("giveConsentBtn").addEventListener("click", function(event) {
+        // Stop the page from doing anything else
+        event.preventDefault();
+
+        // 1. IMMEDIATELY HIDE THE POPUP
+        document.getElementById("consentPopup").style.setProperty("display", "none", "important");
+        console.log("Popup closed");
+
+        // 2. Set the consent variable
+        const consentStatus = SalesforceInteractions.ConsentStatus.OptIn;
+
+        // 3. Initialize the SDK with the variable
+        SalesforceInteractions.init({
+            //dataset: "61dfda57-e818-40e2-a964-6d9b94f21977", // Your ID from the script tag
+            //cookieDomain: "", 
+            consents: [
+                {
+                    status: consentStatus,
+                    purpose: SalesforceInteractions.ConsentPurpose.Tracking,
+                    provider: 'Test Provider'
+                }
+            ]
+        }).then(() => {
+            console.log("Salesforce SDK Initialized with: " + consentStatus);
+            
+            // Now that consent is given, you can fire your CTA click listeners here
+        });
+    });
+</script>
+</html>
